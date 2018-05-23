@@ -42,3 +42,15 @@ bwplot(test_name ~ time_to_first_byte  | domain , data  )
 data2 <- data[data$domain == "nieuwsblad.be",] 
 
 bwplot(test_name ~ time_to_first_byte  | path , data2  )
+
+library(plyr)
+
+data2$pathsplit <- strsplit(data2$path,"/")
+
+data2 <- cbind(data2,ldply(data2$pathsplit, rbind) )
+
+colnames(data2)[54:64] <- paste0(rep("path", 11), 1:11)
+
+bwplot(test_name ~ time_to_first_byte  | path2  , data2  )
+
+
